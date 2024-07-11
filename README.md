@@ -1,9 +1,14 @@
-# bike-route-path-recommender
-```
-conda create -y -n manga-rec python=3.8
-```
+# Manga Recommender System
 
-## Content Based Filtering
+## Project Description
+This project is a content-based recommender system for manga, leveraging metadata and user preferences to provide personalized recommendations.
+
+## Installation
+1. Clone the repository:
+   ```sh
+   git clone https://github.com/yourusername/manga-recommender-system.git
+
+## Content Based Recommendations
 
 ### Attributes
 These are attributes that I felt would help recommend another manga to another person
