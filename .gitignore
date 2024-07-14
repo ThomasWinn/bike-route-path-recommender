@@ -6,5 +6,5 @@ synopsis_embeddings.npz
 
 **/manga_dataset_with_embeddings_paraphrase-mpnet-base-v2.csv
 **/manga_dataset_with_filled_ratings_paraphrase-mpnet-base-v2.csv
-data/manga.csv
-data/modified_manga.csv
+**/manga.csv
+**/modified_manga.csv
