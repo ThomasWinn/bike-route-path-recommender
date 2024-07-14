@@ -3,6 +3,8 @@
 ## Project Description
 This project is a content-based recommender system for manga, leveraging metadata and user preferences to provide personalized recommendations.
 
+Dataset: https://www.kaggle.com/datasets/andreuvallhernndez/myanimelist?resource=download&select=manga.csv
+
 ## Installation
 1. Clone the repository:
    ```sh

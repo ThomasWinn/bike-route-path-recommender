@@ -1,8 +1,10 @@
 **/dataset
 
+**/__pycache__/
+
 synopsis_embeddings.npz
 
-data/manga_dataset_with_embeddings_paraphrase-mpnet-base-v2.csv
-data/manga_dataset_with_filled_ratings_paraphrase-mpnet-base-v2.csv
+**/manga_dataset_with_embeddings_paraphrase-mpnet-base-v2.csv
+**/manga_dataset_with_filled_ratings_paraphrase-mpnet-base-v2.csv
 data/manga.csv
 data/modified_manga.csv

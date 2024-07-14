@@ -1,48 +1,41 @@
-import requests
-import json
+import numpy as np
+import pandas as pd
+from sklearn.preprocessing import MultiLabelBinarizer
 
-TOTAL_PAGES = 2
-CURRENT_COUNT = 0
-FILENAME = 'get_by_id_2.json'
+from src.embeddings import Embeddings
+from src.recommender import Recommender
 
+TITLE='Gantz'
+MODEL = 'paraphrase-mpnet-base-v2'
 
-for i in range(1, TOTAL_PAGES + 1):
+def main():
     
-    # Read the existing data from the JSON file
-    try:
-        with open(FILENAME, 'r') as file:
-            data = json.load(file)
-    except FileNotFoundError:
-        data = {}
-        
-    data['MAL_Pages'] += 1
-    print('Page: ', i)
-    params = {
-        'type': 'manga',
-        'page': i,
-        'limit': 1
-    }
-    response = requests.get(
-        'https://api.jikan.moe/v4/top/manga',
-        params=params
-    )
+    # Load in DF
+    df = pd.read_csv('dataset/processed/manga_dataset_with_filled_ratings_paraphrase-mpnet-base-v2.csv')
     
-    # Check if the request was successful
-    if response.status_code == 200:
-        content = response.json()
-        mangas = content['data']
-        
-        for manga in mangas:
-            attributes = {}
-            
-            
-        # Dump the pretty-printed JSON response to a file
-        # with open(FILENAME, 'w') as json_file:
-        #     json.dump(content, json_file, indent=4)
-        data['Manga_Count'] += 1
-        
-    else:
-        print(f"Error: {response.status_code}")
+    recommender = Recommender(df=df)
+    embeddings = Embeddings(model_name=MODEL, df=df)
+    
+    synopsis_embeddings = embeddings.load('dataset/embeddings/synopsis_embeddings.npz')
+    
+    mlb = MultiLabelBinarizer()
 
-# 47185 pages
-# 50 for now
+    # one hot encode the themes, genres, and demographics
+    genres_encoded = mlb.fit_transform(df['genres'])
+    themes_encoded = mlb.fit_transform(df['themes'])
+    demographics_encoded = mlb.fit_transform(df['demographics'])
+    
+    # Combine all features into a single DataFrame
+    combined_features = np.hstack([
+        synopsis_embeddings, # 768
+        genres_encoded, # 39
+        themes_encoded, # 50
+        demographics_encoded # 17
+    ])
+    
+    recommender.set_similarity_matrix(combined_features)
+    
+    print(recommender.recommend(title=TITLE))
+
+if __name__ == "__main__":
+    main()
