@@ -45,3 +45,15 @@ class Embeddings:
 
         np.savez(filename, embeddings=embeddings_np)
 
+if __name__ == '__main__':
+    df = pd.read_csv('../data/raw/manga.csv')
+    e = Embeddings(model_name='paraphrase-mpnet-base-v2', dataframe=df)
+
+    synopses = df['synopsis'].tolist()
+    embeddings = e.encode(synopses)
+
+    # You can convert it to a numpy array if needed:
+    embeddings_np = embeddings.cpu().numpy()
+
+    filename = '../data/embeddings/synopsis_embeddings.npz'
+    e.save(embeddings=embeddings_np, filename=filename)
