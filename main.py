@@ -11,12 +11,12 @@ MODEL = 'paraphrase-mpnet-base-v2'
 def main():
     
     # Load in DF
-    df = pd.read_csv('dataset/processed/manga_dataset_with_filled_ratings_paraphrase-mpnet-base-v2.csv')
+    df = pd.read_csv('data/processed/manga_cleaned_' + MODEL + '.csv')
     
     recommender = Recommender(df=df)
     embeddings = Embeddings(model_name=MODEL, df=df)
     
-    synopsis_embeddings = embeddings.load('dataset/embeddings/synopsis_embeddings.npz')
+    synopsis_embeddings = embeddings.load('data/embeddings/synopsis_embeddings.npz')
     
     mlb = MultiLabelBinarizer()
 
